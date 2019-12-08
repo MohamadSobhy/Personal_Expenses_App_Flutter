@@ -2,12 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
-import 'package:personal_expenses_app/src/blocs/transaction_bloc.dart';
-import 'package:personal_expenses_app/src/blocs/transaction_bloc_provider.dart';
-import 'package:personal_expenses_app/src/widgets/new_transaction_form.dart';
 
+import './../blocs/transaction_bloc_provider.dart';
+import './../widgets/new_transaction_form.dart';
 import './../models/transaction.dart';
 import './../widgets/transaction_list_tile.dart';
 import './../widgets/chart.dart';
@@ -99,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 _showAddTransactionSheet(context);
               },
-              child: Icon(
+              child: const Icon(
                 Icons.add,
                 color: Colors.white,
               ),
@@ -113,48 +110,57 @@ class _HomeScreenState extends State<HomeScreen> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Show Chart',
-                    style: Theme.of(context).textTheme.title,
-                  ),
-                  Switch.adaptive(
-                    activeColor: Theme.of(context).accentColor,
-                    value: _showChart,
-                    onChanged: (switchVal) {
-                      setState(() {
-                        _showChart = switchVal;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            if (!isLandscape)
-              Container(
-                height: (mediaQuery.size.height -
-                        appBar.preferredSize.height -
-                        mediaQuery.padding.top) *
-                    0.3,
-                child: Chart(_recentUserTransaction),
-              ),
-            if (!isLandscape) _buildTransactionList(appBar, mediaQuery),
-            if (isLandscape)
-              _showChart
-                  ? Container(
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.7,
-                      child: Chart(_recentUserTransaction),
-                    )
-                  : _buildTransactionList(appBar, mediaQuery),
+            if (isLandscape) ..._buildLandscapeContent(mediaQuery, appBar),
+            if (!isLandscape) ..._buildPortraitContent(mediaQuery, appBar),
           ],
         ),
       ),
     );
+  }
+
+  List<Widget> _buildPortraitContent(MediaQueryData mediaQuery, AppBar appBar) {
+    return [
+      Container(
+        height: (mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.3,
+        child: Chart(_recentUserTransaction),
+      ),
+      _buildTransactionList(appBar, mediaQuery)
+    ];
+  }
+
+  List<Widget> _buildLandscapeContent(mediaQuery, appBar) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Show Chart',
+            style: Theme.of(context).textTheme.title,
+          ),
+          Switch.adaptive(
+            activeColor: Theme.of(context).accentColor,
+            value: _showChart,
+            onChanged: (switchVal) {
+              setState(() {
+                _showChart = switchVal;
+              });
+            },
+          ),
+        ],
+      ),
+      _showChart
+          ? Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.7,
+              child: Chart(_recentUserTransaction),
+            )
+          : _buildTransactionList(appBar, mediaQuery),
+    ];
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
@@ -169,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: <Widget>[
                 GestureDetector(
                   onTap: () {},
-                  child: Icon(
+                  child: const Icon(
                     CupertinoIcons.add,
                   ),
                 ),
@@ -187,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   _showAddTransactionSheet(context);
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.add,
                   color: Colors.white,
                 ),
@@ -207,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (ctx, constraints) {
                 return Column(
                   children: <Widget>[
-                    SizedBox(
+                    const SizedBox(
                       height: 10.0,
                     ),
                     Container(
@@ -217,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20.0,
                     ),
                     Text(

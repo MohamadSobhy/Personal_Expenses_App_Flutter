@@ -1,12 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expenses_app/src/widgets/adaptive_flat_button.dart';
 
+import './../widgets/adaptive_flat_button.dart';
 import './../blocs/transaction_bloc.dart';
-import './../models/transaction.dart';
 
 class NewTransactionForm extends StatefulWidget {
   final TransactionBloc bloc;
@@ -20,15 +17,13 @@ class NewTransactionForm extends StatefulWidget {
 
 class _NewTransactionFormState extends State<NewTransactionForm> {
   final titleController = TextEditingController();
-
   final amountController = TextEditingController();
-
   DateTime _selectedDate;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10.0),
+      margin: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -47,7 +42,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
               );
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 10.0,
           ),
           StreamBuilder(
@@ -72,7 +67,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
               );
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 10.0,
           ),
           Row(
@@ -84,13 +79,13 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
                       : 'Picked Date: ${DateFormat.yMMMd().format(_selectedDate)}',
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15.0,
               ),
               AdaptiveFlatButton('Choose Date', _showTransactionDatePicker),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15.0,
           ),
           FlatButton(
@@ -107,7 +102,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
               ),
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
         ],
       ),
     );
